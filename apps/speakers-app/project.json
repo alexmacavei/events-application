@@ -1,0 +1,57 @@
+{
+  "name": "speakers-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/speakers-app/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/speakers-app",
+        "main": "apps/speakers-app/src/main.ts",
+        "tsConfig": "apps/speakers-app/tsconfig.app.json",
+        "assets": ["apps/speakers-app/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/speakers-app/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "speakers-app:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "speakers-app:build:development"
+        },
+        "production": {
+          "buildTarget": "speakers-app:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/speakers-app/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/speakers-app/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
