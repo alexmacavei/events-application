@@ -1,0 +1,111 @@
+version: '3.8'
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: ./apps/api-gateway/Dockerfile
+      target: 'development'
+    command: npm run gateway
+    environment:
+      - KAFKA_BROKER=kafka:29092
+    ports:
+      - '8080:3000'
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - kafka
+  command-app:
+    build:
+      context: .
+      dockerfile: apps/command-app/Dockerfile
+      target: 'development'
+    command: npm run commands-app
+    environment:
+      - KAFKA_BROKER=kafka:29092
+      - MONGO_URI=mongodb://root:password123@mongodb-primary:27017/
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - kafka
+      - mongodb-primary
+      - mongodb-secondary
+      - mongodb-arbiter
+  query-app:
+    build:
+      context: .
+      dockerfile: apps/query-app/Dockerfile
+      target: 'development'
+    command: npm run query-app
+    environment:
+      - KAFKA_BROKER=kafka:29092
+      - MONGO_URI=mongodb://root:password123@mongodb-primary:27017/
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - kafka
+      - mongodb-primary
+      - mongodb-secondary
+      - mongodb-arbiter
+  mongodb-primary:
+    image: 'bitnami/mongodb:latest'
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-primary
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+    volumes:
+      - 'mongodb_master_data:/bitnami'
+    ports:
+      - '27017:27017'
+  mongodb-secondary:
+    image: 'bitnami/mongodb:latest'
+    depends_on:
+      - mongodb-primary
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-secondary
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-primary
+      - MONGODB_INITIAL_PRIMARY_PORT_NUMBER=27017
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+  mongodb-arbiter:
+    image: 'bitnami/mongodb:latest'
+    depends_on:
+      - mongodb-primary
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-arbiter
+      - MONGODB_REPLICA_SET_MODE=arbiter
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-primary
+      - MONGODB_INITIAL_PRIMARY_PORT_NUMBER=27017
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+  kafdrop:
+    image: obsidiandynamics/kafdrop
+    restart: 'no'
+    ports:
+      - '9000:9000'
+    environment:
+      KAFKA_BROKERCONNECT: 'kafka:29092'
+    depends_on:
+      - 'kafka'
+  kafka:
+    image: obsidiandynamics/kafka
+    restart: 'no'
+    ports:
+      - '2181:2181'
+      - '9092:9092'
+    environment:
+      KAFKA_LISTENERS: 'INTERNAL://:29092,EXTERNAL://:9092'
+      KAFKA_ADVERTISED_LISTENERS: 'INTERNAL://kafka:29092,EXTERNAL://localhost:9092'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT'
+      KAFKA_INTER_BROKER_LISTENER_NAME: 'INTERNAL'
+      KAFKA_ZOOKEEPER_SESSION_TIMEOUT: '6000'
+      KAFKA_RESTART_ATTEMPTS: '10'
+      KAFKA_RESTART_DELAY: '5'
+      ZOOKEEPER_AUTOPURGE_PURGE_INTERVAL: '0'
+volumes:
+  mongodb_master_data:
+    driver: local

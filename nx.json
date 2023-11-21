@@ -16,7 +16,8 @@
       ]
     },
     "e2e": {
-      "cache": true
+      "cache": true,
+      "inputs": ["default", "^production"]
     },
     "@nx/jest:jest": {
       "cache": true,
@@ -46,5 +47,20 @@
     ],
     "sharedGlobals": []
   },
-  "nxCloudAccessToken": "MTcyMGRiM2YtZDczMS00MjcyLTk4OTMtNGVhNDE1ODkxNDBmfHJlYWQtd3JpdGU="
+  "nxCloudAccessToken": "MTcyMGRiM2YtZDczMS00MjcyLTk4OTMtNGVhNDE1ODkxNDBmfHJlYWQtd3JpdGU=",
+  "generators": {
+    "@nx/angular:application": {
+      "style": "css",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "playwright"
+    },
+    "@nx/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nx/angular:component": {
+      "style": "css"
+    }
+  }
 }

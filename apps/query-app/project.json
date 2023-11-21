@@ -1,0 +1,65 @@
+{
+  "name": "query-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/query-app/src",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["nx build query-app", "docker build -f ./apps/query-speakers-app/Dockerfile . -t query-speakers-app"],
+        "parallel": false
+      }
+    },
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/query-app",
+        "generatePackageJson": true,
+        "main": "apps/query-app/src/main.ts",
+        "tsConfig": "apps/query-app/tsconfig.app.json",
+        "assets": ["apps/query-app/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/query-app/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "query-app:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "query-app:build:development"
+        },
+        "production": {
+          "buildTarget": "query-app:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/query-app/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/query-app/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}

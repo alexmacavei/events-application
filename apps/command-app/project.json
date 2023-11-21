@@ -1,0 +1,68 @@
+{
+  "name": "command-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/command-app/src",
+  "projectType": "application",
+  "targets": {
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx build command-app",
+          "docker build -f ./apps/command-app/Dockerfile . -t command-app"
+        ],
+        "parallel": false
+      }
+    },
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/command-app",
+        "generatePackageJson": true,
+        "main": "apps/command-app/src/main.ts",
+        "tsConfig": "apps/command-app/tsconfig.app.json",
+        "assets": ["apps/command-app/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/command-app/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "command-app:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "command-app:build:development"
+        },
+        "production": {
+          "buildTarget": "command-app:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/command-speakers-app/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/command-speakers-app/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
