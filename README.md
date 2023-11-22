@@ -8,73 +8,64 @@
 
 ```mermaid
 ---
-title: Node
+title: Employee Club Application
 ---
-graph LR;
-    kafka([Apache Kafka])
-    mongo[(Mongo)]
-    user[fa:fa-user user]
-    user--HTTP-->api-gateway;
-    api-gateway-->kafka;
-    command-service-->kafka;
-    query-service-->kafka;
-    mongo-->command-service;
-    query-service-->mongo;
+graph TD;
+
+  subgraph Frontend
+    A[Angular application]
+    style A fill:#86c7f3,stroke:#333,stroke-width:2px,color:#000;
+  end
+
+  subgraph APIGateway
+    B[API Gateway]
+    style B fill:#f3b286,stroke:#333,stroke-width:2px,color:#000;
+  end
+
+  subgraph Microservice1
+    C[Command Service]
+    style C fill:#f3b286,stroke:#333,stroke-width:2px,color:#000;
+  end
+
+  subgraph Microservice2
+    D[Query Service]
+    style D fill:#f3b286,stroke:#333,stroke-width:2px,color:#000;
+  end
+
+  subgraph Kafka
+    E[\ Apache Kafka \]
+    style E fill:#86c7f3,stroke:#333,stroke-width:2px,color:#000;
+  end
+
+  subgraph MongoDB
+    F[(Mongo DB)]
+    style F fill:#86c7f3,stroke:#333,stroke-width:2px,color:#000;
+  end
+
+  subgraph SharedLibrary
+    G[Shared Library]
+    style G fill:#86c7f3,stroke:#333,stroke-width:2px,color:#000;
+  end
+
+  A -->|HTTP| B
+  B <-->|Kafka| E
+  E <-->|Kafka| C
+  E <-->|Kafka| D
+  C -->|MongoDB| F
+  D -->|MongoDB| F
+
 ```
 
-## Start the app
+### Welcome to the Employees Club App! 
 
-To start the development server run `nx serve speakers-app`. Open your browser and navigate to http://localhost:4200/. Happy coding!
+## DED & starting things up
+
+- make sure you have Docker installed
+- NVM helps, app is created with Node 20.x so make sure you have those installed in order to develop locally
+- pull the code from this repo
+- `docker-compose up --build -V`
 
 
 ## Generate code
 
-If you happen to use Nx plugins, you can leverage code generators that might come with it.
 
-Run `nx list` to get a list of available plugins and whether they have generators. Then run `nx list <plugin-name>` to see what generators are available.
-
-Learn more about [Nx generators on the docs](https://nx.dev/plugin-features/use-code-generators).
-
-## Running tasks
-
-To execute tasks with Nx use the following syntax:
-
-```
-nx <target> <project> <...options>
-```
-
-You can also run multiple targets:
-
-```
-nx run-many -t <target1> <target2>
-```
-
-..or add `-p` to filter specific projects
-
-```
-nx run-many -t <target1> <target2> -p <proj1> <proj2>
-```
-
-Targets can be defined in the `package.json` or `projects.json`. Learn more [in the docs](https://nx.dev/core-features/run-tasks).
-
-## Want better Editor Integration?
-
-Have a look at the [Nx Console extensions](https://nx.dev/nx-console). It provides autocomplete support, a UI for exploring and running tasks & generators, and more! Available for VSCode, IntelliJ and comes with a LSP for Vim users.
-
-## Ready to deploy?
-
-Just run `nx build demoapp` to build the application. The build artifacts will be stored in the `dist/` directory, ready to be deployed.
-
-## Set up CI!
-
-Nx comes with local caching already built-in (check your `nx.json`). On CI you might want to go a step further.
-
-- [Set up remote caching](https://nx.dev/core-features/share-your-cache)
-- [Set up task distribution across multiple machines](https://nx.dev/nx-cloud/features/distribute-task-execution)
-- [Learn more how to setup CI](https://nx.dev/recipes/ci)
-
-## Connect with us!
-
-- [Join the community](https://nx.dev/community)
-- [Subscribe to the Nx Youtube Channel](https://www.youtube.com/@nxdevtools)
-- [Follow us on Twitter](https://twitter.com/nxdevtools)
