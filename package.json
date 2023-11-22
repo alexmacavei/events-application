@@ -6,6 +6,7 @@
     "gateway": "nx run api-gateway:serve:development",
     "commands-app": "nx run command-app:serve:development",
     "query-app": "nx run query-app:serve:development",
+    "frontend": "nx run club-frontend:serve:development",
     "build": "nx build",
     "build-images": "nx affected --target=deploy"
   },
