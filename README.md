@@ -70,7 +70,7 @@ The build process is handled by NX, a build system centered around the idea of a
 ## DED & starting things up
 
 - make sure you have Docker installed
-- NVM helps, app is created with Node 20.x so make sure you have those installed in order to develop locally
+- [NVM](https://nvm.sh ) helps, app is created with Node 20.x so make sure you have those installed in order to develop locally
 - pull the code from this repo
 - `docker-compose up --build -V`
 - you can open the app using an editor of your choice (I am using WebStorm)
