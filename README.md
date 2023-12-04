@@ -8,7 +8,7 @@
 
 ## App architecture
 
-Even though we're barely scratching the surface of CQRS, we would like to slowly migrate towards a more CQRS-y architecture as we learn more about it and it makes sense. The CQRS module in NestJS does not play very well with a microservices-based architecture, so we decided to just go without it for now and simply do a split between our commands and queries services, so that we can scale them independently based on usage. In the future we might also be looking at ES (Event Sourcing) which is something that plays nice with CQRS. 
+Even though we're barely scratching the surface of CQRS, we would like to slowly migrate towards a more CQRS-y architecture as we learn more about it and it makes sense. The CQRS module in NestJS does not seem to work very well with a microservices-based architecture, so we decided to just go without it for now and simply do a split between our commands and queries services, so that we can scale them independently based on usage. In the future we might also be looking at ES (Event Sourcing) which is something that plays nice with CQRS. 
 
 
 ```mermaid
