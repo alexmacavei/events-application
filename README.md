@@ -67,11 +67,12 @@ The app uses an Angular frontend that communicates with a backend created using 
 The backend app communicates with the outside world through the api-gateway service which, internally, communicates with the other microservices through Kafka messaging. App state is held in a Mongo database. 
 The build process is handled by NX, a build system centered around the idea of a monorepo. Even though all code sits together, the services are packaged separately. They can be developed, tested, released and scaled separately.
 
-## DED & starting things up
+## Starting things up
 
 - make sure you have Docker installed
 - [NVM](https://nvm.sh ) helps, app is created with Node 20.x so make sure you have those installed in order to develop locally
 - pull the code from this repo
+- `npx nx affected -t build`
 - `docker-compose up --build -V`
 - you can open the app using an editor of your choice (I am using WebStorm)
 
