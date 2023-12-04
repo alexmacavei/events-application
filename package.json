@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "gateway": "nx run api-gateway:serve:development",
-    "commands-app": "nx run command-app:serve:development",
-    "query-app": "nx run query-app:serve:development",
-    "build": "nx build",
-    "build-images": "nx affected --target=deploy"
+    "gateway": "npx nx run api-gateway:serve:development",
+    "commands-app": "npx nx run command-app:serve:development",
+    "query-app": "npx nx run query-app:serve:development",
+    "build": "npx nx build",
+    "build-images": "npx nx affected --target=deploy"
   },
   "private": true,
   "dependencies": {
