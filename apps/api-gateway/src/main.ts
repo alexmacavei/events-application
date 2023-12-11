@@ -15,8 +15,8 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalPipes(new ValidationPipe());
   const port = process.env.PORT || 3000;
-  await app.listen(port);
-  Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
+  await app.listen(port, '0.0.0.0');
+  Logger.log(`🚀 Gateway is up and running on ${await app.getUrl()}.`);
 }
 
 bootstrap();
