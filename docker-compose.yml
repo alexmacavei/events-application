@@ -7,7 +7,7 @@ services:
       target: 'development'
     command: npm run gateway
     environment:
-      - KAFKA_BROKER=kafka:29092
+      - KAFKA_BROKER=kafka:9092
     ports:
       - '8080:3000'
     volumes:
@@ -22,7 +22,7 @@ services:
       target: 'development'
     command: npm run commands-app
     environment:
-      - KAFKA_BROKER=kafka:29092
+      - KAFKA_BROKER=kafka:9092
       - MONGO_URI=mongodb://root:password123@mongodb-primary:27017/
     volumes:
       - .:/usr/src/app
@@ -39,7 +39,7 @@ services:
       target: 'development'
     command: npm run query-app
     environment:
-      - KAFKA_BROKER=kafka:29092
+      - KAFKA_BROKER=kafka:9092
       - MONGO_URI=mongodb://root:password123@mongodb-primary:27017/
     volumes:
       - .:/usr/src/app
@@ -82,30 +82,30 @@ services:
       - MONGODB_INITIAL_PRIMARY_PORT_NUMBER=27017
       - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
       - MONGODB_REPLICA_SET_KEY=replicasetkey123
-  kafdrop:
-    image: obsidiandynamics/kafdrop
-    restart: 'no'
-    ports:
-      - '9000:9000'
-    environment:
-      KAFKA_BROKERCONNECT: 'kafka:29092'
-    depends_on:
-      - 'kafka'
-  kafka:
-    image: obsidiandynamics/kafka
-    restart: 'no'
+  zookeeper:
+    image: bitnami/zookeeper:3.9.1-debian-11-r3
     ports:
       - '2181:2181'
-      - '9092:9092'
+    volumes:
+      - 'zookeeper_data:/bitnami'
     environment:
-      KAFKA_LISTENERS: 'INTERNAL://:29092,EXTERNAL://:9092'
-      KAFKA_ADVERTISED_LISTENERS: 'INTERNAL://kafka:29092,EXTERNAL://localhost:9092'
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT'
-      KAFKA_INTER_BROKER_LISTENER_NAME: 'INTERNAL'
-      KAFKA_ZOOKEEPER_SESSION_TIMEOUT: '6000'
-      KAFKA_RESTART_ATTEMPTS: '10'
-      KAFKA_RESTART_DELAY: '5'
-      ZOOKEEPER_AUTOPURGE_PURGE_INTERVAL: '0'
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  kafka:
+    image: bitnami/kafka:3.6.1-debian-11-r0
+    restart: 'no'
+    ports:
+      - '9092:9092'
+    volumes:
+      - 'kafka_data:/bitnami'
+    environment:
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+    depends_on:
+      - zookeeper
 volumes:
   mongodb_master_data:
+    driver: local
+  zookeeper_data:
+    driver: local
+  kafka_data:
     driver: local
