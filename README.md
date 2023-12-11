@@ -1,4 +1,4 @@
-# EventsApplication
+# Employee's Club Application
 
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
@@ -69,12 +69,12 @@ The build process is handled by NX, a build system centered around the idea of a
 
 ## Starting things up
 
-- make sure you have Docker installed
-- [NVM](https://nvm.sh ) helps, app is created with Node 20.x so make sure you have those installed in order to develop locally
-- pull the code from this repo
+- Make sure you have Docker installed
+- Optional: [NVM](https://nvm.sh ) helps, app is created with Node 20.x so make sure you have those installed in order to develop locally
+- Pull the code from this repo
 - Optional: `npx nx affected -t build`
 - `docker-compose up --build -V`
-- you can open the app using an editor of your choice (I am using WebStorm)
+- You can open the app using an editor of your choice (I am using WebStorm)
 
 ## Testing things out
 
