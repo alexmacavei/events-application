@@ -7,7 +7,7 @@
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["nx build query-app", "docker build -f ./apps/query-speakers-app/Dockerfile . -t query-speakers-app"],
+        "commands": ["nx build query-app", "docker build -f ./apps/query-app/Dockerfile . -t query-app"],
         "parallel": false
       }
     },
