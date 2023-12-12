@@ -78,7 +78,8 @@ The build process is handled by NX, a build system centered around the idea of a
 
 ## Testing things out
 
-To test stuff is set up properly, send a POST request using whatever client you like:
+- For a quick test of the local setup you can run `./test_setup.sh`
+- To test stuff is set up properly, send a POST request using whatever client you like:
 ```
 --- POST a speaker
 POST http://localhost:8080/api
