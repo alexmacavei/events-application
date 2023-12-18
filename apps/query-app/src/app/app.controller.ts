@@ -9,6 +9,7 @@ export class AppController {
 
   @MessagePattern('fetch-speakers')
   async fetchSpeakers() {
+    console.log('Received query request on the fetch-speakers topic...');
     return await this.appService.fetchSpeakers();
   }
 }

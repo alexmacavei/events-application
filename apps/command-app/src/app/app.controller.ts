@@ -9,7 +9,8 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @EventPattern('speaker_created')
-  handleSpeakerCreated(data: CreateSpeakerEvent ) {
+  handleSpeakerCreated(data: CreateSpeakerEvent) {
+    console.log(`Received POST request to create speaker: `, JSON.stringify(data));
     this.appService.handleSpeakerCreated(data);
   }
 }
