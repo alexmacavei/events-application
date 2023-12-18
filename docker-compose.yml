@@ -23,15 +23,13 @@ services:
     command: npm run commands-app
     environment:
       - KAFKA_BROKER=kafka:9092
-      - MONGO_URI=mongodb://root:password123@mongodb-primary:27017/
+      - MONGO_URI=mongodb://root:password123@mongodb:27017/
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
       - kafka
-      - mongodb-primary
-      - mongodb-secondary
-      - mongodb-arbiter
+      - mongodb
   query-app:
     build:
       context: .
@@ -40,48 +38,20 @@ services:
     command: npm run query-app
     environment:
       - KAFKA_BROKER=kafka:9092
-      - MONGO_URI=mongodb://root:password123@mongodb-primary:27017/
+      - MONGO_URI=mongodb://root:password123@mongodb:27017/
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
       - kafka
-      - mongodb-primary
-      - mongodb-secondary
-      - mongodb-arbiter
-  mongodb-primary:
-    image: 'bitnami/mongodb:latest'
+      - mongodb
+  mongodb:
+    image: 'mongo:7.0.4'
     environment:
-      - MONGODB_ADVERTISED_HOSTNAME=mongodb-primary
-      - MONGODB_REPLICA_SET_MODE=primary
-      - MONGODB_ROOT_PASSWORD=password123
-      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password123
     volumes:
-      - 'mongodb_master_data:/bitnami'
-    ports:
-      - '27017:27017'
-  mongodb-secondary:
-    image: 'bitnami/mongodb:latest'
-    depends_on:
-      - mongodb-primary
-    environment:
-      - MONGODB_ADVERTISED_HOSTNAME=mongodb-secondary
-      - MONGODB_REPLICA_SET_MODE=secondary
-      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-primary
-      - MONGODB_INITIAL_PRIMARY_PORT_NUMBER=27017
-      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
-      - MONGODB_REPLICA_SET_KEY=replicasetkey123
-  mongodb-arbiter:
-    image: 'bitnami/mongodb:latest'
-    depends_on:
-      - mongodb-primary
-    environment:
-      - MONGODB_ADVERTISED_HOSTNAME=mongodb-arbiter
-      - MONGODB_REPLICA_SET_MODE=arbiter
-      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-primary
-      - MONGODB_INITIAL_PRIMARY_PORT_NUMBER=27017
-      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
-      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - 'mongodb_master_data:/data/db'
   zookeeper:
     image: bitnami/zookeeper:3.9.1-debian-11-r3
     ports:
