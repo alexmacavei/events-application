@@ -18,12 +18,17 @@ export class AppService {
     Logger.log(`Saved event: ${res.name}...`);
   }
 
-  handleEventDeleted(idToDelete: { id: string }) {
-    this.eventModel.deleteOne(idToDelete);
+  async handleEventDeleted({ id }: { id: string }) {
+    console.log(`Deleting event with id: `, id);
+    await this.eventModel.deleteOne({ _id: new Types.ObjectId(id) });
   }
 
-  async handleEventUpdated(data: CreateEventRequest & { id: Types.ObjectId }) {
-    const { matchedCount, modifiedCount, acknowledged } = await this.eventModel.updateOne({ _id: data.id }, data);
+  async handleEventUpdated(data: CreateEventRequest & { _id: Types.ObjectId }) {
+    console.log(`Updating event: `, data);
+    const { matchedCount, modifiedCount, acknowledged } = await this.eventModel.updateOne(
+      { _id: new Types.ObjectId(data._id) },
+      data
+    );
     Logger.log(`Matched docs: ${matchedCount}, Modified docs: ${modifiedCount}, Ack: ${acknowledged}`);
   }
 }

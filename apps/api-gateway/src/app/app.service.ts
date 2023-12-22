@@ -28,7 +28,7 @@ export class AppService implements OnModuleInit {
     this.commandClient.emit('event-deleted', { id });
   }
 
-  updateEvent(request: CreateEventRequest & { id: Types.ObjectId }) {
+  updateEvent(request: CreateEventRequest & { _id: Types.ObjectId }) {
     this.commandClient.emit('event-updated', request);
   }
 }

@@ -23,7 +23,7 @@ export class AppController {
   }
 
   @Put()
-  updateEvent(@Body() request: CreateEventRequest & { id: Types.ObjectId }) {
+  updateEvent(@Body() request: CreateEventRequest & { _id: Types.ObjectId }) {
     this.appService.updateEvent(request);
   }
 

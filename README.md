@@ -124,3 +124,29 @@ GET http://localhost:8080/api?id=658590fe4b292bff9e6a6541
 Content-Type: application/json
 ```
 
+Delete an event, specifying the Mongo _id as a path param:
+```
+--- DELETE an event
+
+DELETE http://localhost:8080/api/6585d24552b29115b55979e8
+```
+
+Update an event:
+```
+PUT http://localhost:8080/api
+Content-Type: application/json
+
+{
+  "_id": "6585d25d52b29115b55979eb",
+  "name": "New Year's Party",
+  "eventType": "PARTY",
+  "participants": [
+    {
+      "fullName": "Lynna Clara Allman",
+      "email": "lallman0@spotify.com",
+      "title": "GIS Technical Architect",
+      "initials": "lallman0"
+    }
+  ]
+}
+```

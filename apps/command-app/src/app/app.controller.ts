@@ -20,7 +20,7 @@ export class AppController {
   }
 
   @EventPattern('event-updated')
-  async handleEventUpdated(data: CreateEventRequest & { id: Types.ObjectId }) {
+  async handleEventUpdated(data: CreateEventRequest & { _id: Types.ObjectId }) {
     await this.appService.handleEventUpdated(data);
   }
 }
