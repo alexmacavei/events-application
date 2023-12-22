@@ -7,9 +7,9 @@ import { MessagePattern } from '@nestjs/microservices';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @MessagePattern('fetch-speakers')
-  async fetchSpeakers() {
-    console.log('Received query request on the fetch-speakers topic...');
-    return await this.appService.fetchSpeakers();
+  // TODO maca: come up with something better than {}
+  @MessagePattern('fetch-events')
+  async fetchEvents(queryId: string | {}) {
+    return await this.appService.fetchEvents(queryId);
   }
 }

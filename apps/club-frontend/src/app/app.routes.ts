@@ -1,4 +1,4 @@
 import { Route } from '@angular/router';
-import { SpeakersPageComponent } from './speakers/speakers-page.component';
+import { EventsListComponent } from './events/components/events-list.component';
 
-export const appRoutes: Route[] = [{ path: '', component: SpeakersPageComponent }];
+export const appRoutes: Route[] = [{ path: '', component: EventsListComponent }];

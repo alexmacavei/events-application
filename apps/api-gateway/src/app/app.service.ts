@@ -1,25 +1,34 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { CreateSpeakerEvent, CreateSpeakerRequest } from '@systematic/models';
+import { CreateEventEvent, CreateEventRequest } from '@systematic/models';
 import { ClientKafka } from '@nestjs/microservices';
 import { v4 as uuid_v4 } from 'uuid';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class AppService implements OnModuleInit {
   constructor(
-    @Inject('COMMAND_SPEAKERS') private readonly commandSpeakersClient: ClientKafka,
-    @Inject('QUERY_SPEAKERS') private readonly querySpeakers: ClientKafka
+    @Inject('COMMAND_CLIENT') private readonly commandClient: ClientKafka,
+    @Inject('QUERY_CLIENT') private readonly queryClient: ClientKafka
   ) {}
 
   onModuleInit() {
-    this.querySpeakers.subscribeToResponseOf('fetch-speakers');
+    this.queryClient.subscribeToResponseOf('fetch-events');
   }
 
-  createSpeaker(request: CreateSpeakerRequest) {
-    const createSpeakerEvent: CreateSpeakerEvent = { ...request, id: uuid_v4() };
-    this.commandSpeakersClient.emit('speaker_created', createSpeakerEvent);
+  createEvent(request: CreateEventRequest) {
+    const createEvent: CreateEventEvent = { ...request, id: uuid_v4() };
+    this.commandClient.emit('event-created', createEvent);
   }
 
-  findAllSpeakers() {
-    return this.querySpeakers.send('fetch-speakers', {});
+  findEvents(queryId: string | null) {
+    return this.queryClient.send('fetch-events', queryId || {});
+  }
+
+  deleteEvent(id: string) {
+    this.commandClient.emit('event-deleted', { id });
+  }
+
+  updateEvent(request: CreateEventRequest & { _id: Types.ObjectId }) {
+    this.commandClient.emit('event-updated', request);
   }
 }

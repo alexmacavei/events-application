@@ -17,12 +17,12 @@ async function bootstrap() {
         brokers: [process.env.KAFKA_BROKER || 'kafka:9092'],
       },
       consumer: {
-        groupId: 'query-speaker-consumer',
+        groupId: 'queries-consumer',
       },
     },
   });
   await app.listen();
-  Logger.log(`🚀 Speakers (query side) microservices has started!`);
+  Logger.log(`🚀 Query microservice has started!`);
 }
 
 bootstrap();

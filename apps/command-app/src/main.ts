@@ -14,16 +14,16 @@ async function bootstrap() {
     transport: Transport.KAFKA,
     options: {
       client: {
-        brokers: [process.env.KAFKA_BROKER || 'kafka:9092']
+        brokers: [process.env.KAFKA_BROKER || 'kafka:9092'],
       },
       consumer: {
-        groupId: 'commands-speaker-consumer'
-      }
-    }
+        groupId: 'commands-consumer',
+      },
+    },
   });
-  app.useGlobalPipes(new ValidationPipe())
+  app.useGlobalPipes(new ValidationPipe());
   await app.listen();
-  Logger.log(`🚀 Speakers (commands side) microservice has started!`);
+  Logger.log(`🚀 Commands microservice has started!`);
 }
 
 bootstrap();

@@ -8,28 +8,28 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
   imports: [
     ClientsModule.register([
       {
-        name: 'COMMAND_SPEAKERS',
+        name: 'COMMAND_CLIENT',
         transport: Transport.KAFKA,
         options: {
           client: {
-            clientId: 'commands-speakers',
+            clientId: 'api-gateway-commands',
             brokers: [process.env.KAFKA_BROKER || 'kafka:9092'],
           },
           consumer: {
-            groupId: 'commands-speaker-consumer',
+            groupId: 'commands-consumer',
           },
         },
       },
       {
-        name: 'QUERY_SPEAKERS',
+        name: 'QUERY_CLIENT',
         transport: Transport.KAFKA,
         options: {
           client: {
-            clientId: 'queries-speakers',
+            clientId: 'api-gateway-queries',
             brokers: [process.env.KAFKA_BROKER || 'kafka:9092'],
           },
           consumer: {
-            groupId: 'query-speaker-consumer',
+            groupId: 'queries-consumer',
           },
         },
       },

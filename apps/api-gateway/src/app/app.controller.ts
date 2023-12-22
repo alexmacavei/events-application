@@ -1,18 +1,34 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { AppService } from './app.service';
-import { CreateSpeakerRequest } from '@systematic/models';
+import { CreateEventRequest } from '@systematic/models';
+import { Types } from 'mongoose';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getSpeakers() {
-    return this.appService.findAllSpeakers();
+  getAnEvent(@Query('id') queryId: string) {
+    return this.appService.findEvents(queryId);
+  }
+
+  @Get('/all')
+  getAllEvents() {
+    return this.appService.findEvents(null);
   }
 
   @Post()
-  createSpeaker(@Body() request: CreateSpeakerRequest) {
-    this.appService.createSpeaker(request);
+  createEvent(@Body() request: CreateEventRequest) {
+    this.appService.createEvent(request);
+  }
+
+  @Put()
+  updateEvent(@Body() request: CreateEventRequest & { _id: Types.ObjectId }) {
+    this.appService.updateEvent(request);
+  }
+
+  @Delete(':id')
+  removeEvent(@Param('id') id: string) {
+    this.appService.deleteEvent(id);
   }
 }
