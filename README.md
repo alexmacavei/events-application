@@ -81,22 +81,46 @@ The build process is handled by NX, a build system centered around the idea of a
 - For a quick test of the local setup you can run `./test_setup.sh`
 - To test stuff is set up properly, send a POST request using whatever client you like:
 ```
---- POST a speaker
+--- POST an event
 POST http://localhost:8080/api
 Content-Type: application/json
 
 {
-  "email": "john@company.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "joinedSystematic": "2020-03-01"
+  "name": "X-mas party!",
+  "eventType": "PARTY",
+  "participants": [
+    {
+      "fullName": "Lynna Allman",
+      "email": "lallman0@spotify.com",
+      "title": "GIS Technical Architect",
+      "initials": "lallman0"
+    },
+    {
+      "fullName": "Darb Cronchey",
+      "email": "dcronchey1@army.mil",
+      "title": "Media Manager II",
+      "initials": "dcronchey1"
+    },
+    {
+      "fullName": "Aubert Ney",
+      "email": "aney2@who.int",
+      "title": "VP Sales",
+      "initials": "aney2"
+    }
+  ]
 }
+
 ```
-Then you can GET all saves speakers:
+Then you can GET all saved events:
 ```
---- GET all speakers
+--- GET all events
 GET http://localhost:8080/api
 Content-Type: application/json
 ```
-
+Or, you could get a single event by id (replace id with an actual existing id):
+```
+--- GET by id
+GET http://localhost:8080/api?id=658590fe4b292bff9e6a6541
+Content-Type: application/json
+```
 
