@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/club-frontend-e2e/src",
+  "implicitDependencies": ["club-frontend"],
   "targets": {
     "e2e": {
       "executor": "@nx/playwright:playwright",
@@ -18,6 +19,5 @@
         "lintFilePatterns": ["apps/club-frontend-e2e/**/*.{js,ts}"]
       }
     }
-  },
-  "implicitDependencies": ["club-frontend"]
+  }
 }

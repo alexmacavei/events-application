@@ -3,14 +3,12 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/command-app/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "nx build command-app",
-          "docker build -f ./apps/command-app/Dockerfile . -t command-app"
-        ],
+        "commands": ["nx build command-app", "docker build -f ./apps/command-app/Dockerfile . -t command-app"],
         "parallel": false
       }
     },
@@ -63,6 +61,5 @@
         "jestConfig": "apps/command-speakers-app/jest.config.ts"
       }
     }
-  },
-  "tags": []
+  }
 }

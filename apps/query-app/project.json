@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/query-app/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "deploy": {
       "executor": "nx:run-commands",
@@ -60,6 +61,5 @@
         "jestConfig": "apps/query-app/jest.config.ts"
       }
     }
-  },
-  "tags": []
+  }
 }
