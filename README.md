@@ -67,13 +67,22 @@ The app uses an Angular frontend that communicates with a backend created using 
 The backend app communicates with the outside world through the api-gateway service which, internally, communicates with the other microservices through Kafka messaging. App state is held in a Mongo database. 
 The build process is handled by NX, a build system centered around the idea of a monorepo. Even though all code sits together, the services are packaged separately. They can be developed, tested, released and scaled separately.
 
+## Prerequisites
+
+- **Node.js 20.x or higher** (required for local development)
+  - Recommended: Use [NVM](https://nvm.sh) to manage Node.js versions
+  - If using NVM: `nvm use` (reads from `.nvmrc` file)
+- **Docker** (required for running the full application stack)
+
 ## Starting things up
 
 - Make sure you have Docker installed
-- Optional: [NVM](https://nvm.sh ) helps, app is created with Node 20.x so make sure you have those installed in order to develop locally
+- Make sure you have Node.js 20.x or higher installed
+  - If using NVM: run `nvm use` in the project root
 - Pull the code from this repo
-- Optional: `npx nx affected -t build`
-- `docker-compose up --build -V`
+- Install dependencies: `npm install`
+- Optional: Build all projects locally: `npx nx run-many -t build`
+- Start the application: `docker-compose up --build -V`
 - You can open the app using an editor of your choice (I am using WebStorm)
 
 ## Testing things out
@@ -150,3 +159,31 @@ Content-Type: application/json
   ]
 }
 ```
+
+## Troubleshooting
+
+### Build Fails with "SyntaxError: Unexpected token ?"
+
+If you encounter an error like:
+```
+SyntaxError: Unexpected token ?
+    at Module._compile (internal/modules/cjs/loader.js:723:23)
+```
+
+This means you're using an incompatible Node.js version. The application requires **Node.js 20.x or higher**.
+
+**Solution:**
+1. Check your Node.js version: `node --version`
+2. If it's below 20.x, upgrade Node.js:
+   - Using NVM (recommended): `nvm install 20 && nvm use 20`
+   - Or download from [nodejs.org](https://nodejs.org/)
+3. Clear npx cache if using npx: `npx clear-npx-cache` or delete `~/.npm/_npx/`
+4. Reinstall dependencies: `rm -rf node_modules package-lock.json && npm install`
+5. Try again: `npx nx list`
+
+### NX Affected Commands Fail
+
+If `npx nx affected -t build` fails with git-related errors, use:
+- `npx nx run-many -t build` - builds all projects
+- `npx nx run-many -t test` - tests all projects
+- `npx nx run-many -t lint` - lints all projects
