@@ -177,7 +177,7 @@ This means you're using an incompatible Node.js version. The application require
 2. If it's below 20.x, upgrade Node.js:
    - Using NVM (recommended): `nvm install 20 && nvm use 20`
    - Or download from [nodejs.org](https://nodejs.org/)
-3. Clear npx cache if using npx: delete `~/.npm/_npx/` or run `npm cache clean --force`
+3. Clear npm and npx cache: `npm cache clean --force`
 4. Reinstall dependencies: `rm -rf node_modules package-lock.json && npm install`
 5. Try again: `npx nx list`
 
