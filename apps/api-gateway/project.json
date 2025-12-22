@@ -3,14 +3,12 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/api-gateway/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "nx build api-gateway",
-          "docker build -f ./apps/api-gateway/Dockerfile . -t api-gateway"
-        ],
+        "commands": ["nx build api-gateway", "docker build -f ./apps/api-gateway/Dockerfile . -t api-gateway"],
         "parallel": false
       }
     },
@@ -63,6 +61,5 @@
         "jestConfig": "apps/api-gateway/jest.config.ts"
       }
     }
-  },
-  "tags": []
+  }
 }
