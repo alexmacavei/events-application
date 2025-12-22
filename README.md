@@ -77,9 +77,9 @@ The build process is handled by NX, a build system centered around the idea of a
 ## Starting things up
 
 - Make sure you have Docker installed
-- Make sure you have Node.js 20.x or higher installed
-  - If using NVM: run `nvm use` in the project root
 - Pull the code from this repo
+- Make sure you have Node.js 20.x or higher installed
+  - If using NVM: run `nvm use` in the project root (uses the `.nvmrc` file)
 - Install dependencies: `npm install`
 - Optional: Build all projects locally: `npx nx run-many -t build`
 - Start the application: `docker-compose up --build -V`
